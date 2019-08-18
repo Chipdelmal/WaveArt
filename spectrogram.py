@@ -1,10 +1,11 @@
 import array
+import numpy as np
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
 from pydub.utils import get_array_type
 
-PATH = "./audio/"
-sound = AudioSegment.from_file(file=PATH + 'impossiblegermany.mp3')
+(AUD_PATH, OUT_PATH) = ("./audio/", "./out/")
+sound = AudioSegment.from_file(file=AUD_PATH + 'impossiblegermany.mp3')
 left = sound.split_to_mono()[0]
 right = sound.split_to_mono()[1]
 
@@ -15,8 +16,16 @@ numeric_arrayR = array.array(array_type, right._data)
 
 
 # Plot the signal read from wav file
+cm = plt.cm.get_cmap('bwr')#('seismic')
 fig, ax = plt.subplots()
-plt.plot(numeric_arrayL, alpha=.2)
-plt.plot(numeric_arrayR, color="r",alpha=.1, drawstyle="steps", fillstyle=None)
+plt.scatter(
+    range(len(numeric_arrayL)),
+    numeric_arrayL, #vmin=0, vmax=20,
+    alpha=.1, c=numeric_arrayL, cmap=cm, s=.5
+)
+# plt.plot(numeric_arrayR, color="r",alpha=.1, drawstyle="steps", fillstyle=None)
 ax.axis('off')
-plt.show()
+plt.savefig(
+    OUT_PATH + 'out.png',
+    dpi=500, bbox_inches='tight'
+)

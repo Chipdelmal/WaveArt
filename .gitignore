@@ -2,6 +2,7 @@
 *.wav
 *.mp3
 *.csv
+/out/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
