@@ -2,7 +2,7 @@
 *.wav
 *.mp3
 *.csv
-/out/
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
