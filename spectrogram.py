@@ -1,5 +1,4 @@
 import array
-import numpy as np
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
 from pydub.utils import get_array_type
@@ -9,6 +8,13 @@ color = [i / 255 for i in [155, 40, 125]]
 colors = [color, (1, 1, 1), color]
 cm = LinearSegmentedColormap.from_list("red", colors, N=500)
 #cm = plt.cm.get_cmap('bwr')#('seismic')
+font = {
+    'family': 'sans-serif',
+    'color':  'darkblue',
+    'weight': 'light',
+    'size': 75,
+    'alpha': .35
+}
 
 (AUD_PATH, OUT_PATH) = ("./audio/", "./out/")
 sound = AudioSegment.from_file(file=AUD_PATH + 'impossiblegermany.mp3')
@@ -28,21 +34,13 @@ plt.scatter(
     numeric_arrayL,  # vmin=0, vmax=20,
     alpha=.1, c=numeric_arrayL, cmap=cm, s=.05
 )
+ax.axis('off')
 plt.text(
-    round(0), 0, 'matplotlib', horizontalalignment='center',
-    verticalalignment='center', transform=ax.transAxes
+    .5, .5, 'Impossible Germany', fontdict=font,
+    horizontalalignment='center', verticalalignment='center',
+    transform=ax.transAxes
 )
 plt.savefig(
     OUT_PATH + 'out.png',
     dpi=100, bbox_inches='tight'
 )
-
-
-
-# plt.plot(numeric_arrayR, color="r",alpha=.1, drawstyle="steps", fillstyle=None)
-# x.axis('off')
-
-
-
-(minY, maxY) = (min(numeric_array), max(numeric_array))
-(minX, maxX) = (0, len(numeric_array))
