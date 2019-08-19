@@ -1,7 +1,7 @@
 ###############################################################################
 # https://matplotlib.org/users/text_props.html
 # https://matplotlib.org/api/_as_gen/matplotlib.colors.LinearSegmentedColormap.html#matplotlib.colors.LinearSegmentedColormap.from_list
-#
+# https://stackoverflow.com/questions/9458480/read-mp3-in-python-3/45380892
 ###############################################################################
 
 import array
