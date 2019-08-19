@@ -10,10 +10,10 @@ cm = LinearSegmentedColormap.from_list("red", colors, N=500)
 #cm = plt.cm.get_cmap('bwr')#('seismic')
 font = {
     'family': 'sans-serif',
-    'color':  'darkblue',
+    'color':  'black',
     'weight': 'light',
-    'size': 75,
-    'alpha': .35
+    'size': 100,
+    'alpha': .05
 }
 
 (AUD_PATH, OUT_PATH) = ("./audio/", "./out/")
@@ -44,3 +44,4 @@ plt.savefig(
     OUT_PATH + 'out.png',
     dpi=100, bbox_inches='tight'
 )
+plt.close()
