@@ -6,6 +6,7 @@
 # https://matplotlib.org/users/text_props.html
 # https://matplotlib.org/api/_as_gen/matplotlib.colors.LinearSegmentedColormap.html#matplotlib.colors.LinearSegmentedColormap.from_list
 # https://stackoverflow.com/questions/9458480/read-mp3-in-python-3/45380892
+# https://gist.github.com/kylemcdonald/bedcc053db0e7843ef95c531957cb90f
 ###############################################################################
 
 import array
@@ -13,6 +14,7 @@ import matplotlib.pyplot as plt
 from pydub import AudioSegment
 from pydub.utils import get_array_type
 from matplotlib.colors import LinearSegmentedColormap
+
 
 ###############################################################################
 # Define style
@@ -28,21 +30,18 @@ font = {
     'fontname': "Silom",#'DIN Condensed',
     'color':  'black',
     'weight': 'light',
-    'size': 75,
-    'alpha': .075
+    'size': 75, 'alpha': .075
 }
 
 ###############################################################################
 # Load data
 ###############################################################################
-(AUD_PATH, OUT_PATH, NAME, FILE) = (
-    "./audio/", "./out/",
-    "Tame", '02 Tame.mp3'
-)
+NAME = 'Float On'
+(AUD_PATH, OUT_PATH, FILE) = ('./audio/', './out/', NAME + '.mp3')
 sound = AudioSegment.from_file(file=AUD_PATH + FILE)
-left = sound.split_to_mono()[0]
-right = sound.split_to_mono()[1]
-peak_amplitude = sound.max
+soundNorm = sound.normalize()
+(left, right) = (soundNorm.split_to_mono()[0], soundNorm.split_to_mono()[1])
+peak_amplitude = soundNorm.max
 dir(sound)
 
 ###############################################################################
@@ -50,21 +49,24 @@ dir(sound)
 ###############################################################################
 bit_depth = left.sample_width * 8
 array_type = get_array_type(bit_depth)
-numeric_arrayL = array.array(array_type, left._data)
-numeric_arrayR = array.array(array_type, right._data)
-numeric_array = numeric_arrayL + numeric_arrayR
-mix = [numeric_arrayL[i] + numeric_arrayR[i] for i in range(len(numeric_arrayR))]
+(signalL, signalR) = (
+    array.array(array_type, left._data),
+    array.array(array_type, right._data)
+)
+mix = [signalL[i] + signalR[i] for i in range(len(signalL))]
 
 ###############################################################################
 # Plot signal
 ###############################################################################
 fig, ax = plt.subplots(figsize=(30, 6))
 ax.axis('off')
+ax.get_xaxis().set_visible(False)
+ax.get_yaxis().set_visible(False)
+plt.autoscale(tight=True)
 plt.scatter(
     range(len(mix)),
     mix, c=mix,
-    alpha=.1, cmap=cm, s=.05
-    # vmin=0, vmax=20,
+    alpha=.15, cmap=cm, s=.05
 )
 plt.text(
     .5, .5-.02, NAME, fontdict=font,
