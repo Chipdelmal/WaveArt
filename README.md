@@ -14,7 +14,7 @@ For an "automatic" selection of parameters:
 
 For finer control over the parameters, please have a look at the `waveart.py` script and modify as needed (will make improvements on the code in the near future).
 
-<img src="./media/Transatlanticism.jpg" width="100%" align="middle">
+<img src="./media/Iris.jpg" width="100%" align="middle">
 
 ##  Dependencies
 

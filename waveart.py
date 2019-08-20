@@ -49,7 +49,7 @@ if len(SINGLE_SONG) == 0:
     random.shuffle(filesList)
 else:
     filesList = [AUD_PATH + SINGLE_SONG]
-
+print(filesList)
 ###############################################################################
 # Process
 ###############################################################################
