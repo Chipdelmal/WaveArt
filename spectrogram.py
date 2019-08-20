@@ -9,6 +9,7 @@
 # https://gist.github.com/kylemcdonald/bedcc053db0e7843ef95c531957cb90f
 ###############################################################################
 
+import aux
 import glob
 import array
 import random
@@ -17,47 +18,58 @@ from pydub import AudioSegment
 from pydub.utils import get_array_type
 from matplotlib.colors import LinearSegmentedColormap
 
-
+SINGLE_SONG = "Transatlanticism.mp3"
 ###############################################################################
 # Define style
 ###############################################################################
 COLORS = [
     [155, 40, 125],     # Red
     [125, 40, 155],     # Purple
-    #[40, 155, 125],     # Green
+    [1, 25, 150],       # Dark Blue
     [150, 200, 255],    # Cyan
-    [215, 5, 100],     # Pink
-    [55, 5, 105]        # Dark Purple
+    [215, 5, 100],      # Pink
+    [55, 5, 105],       # Dark Purple
+    [80, 215, 30]       # Green
 ]
 font = {
-    'fontname': "Avenir",#'DIN Condensed',
-    'color':  'black',
-    'weight': 'light',
+    'fontname': "Avenir",
+    'color':  'black', 'weight': 'light',
     'size': 100, 'alpha': .06
 }
 
 ###############################################################################
-# Load data
+# Load Filenames
 ###############################################################################
 (AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
-filesList = []
-for i in EXTS:
-    filesList.extend(glob.glob(AUD_PATH + i))
+processStr = 'Processing {}/{} "{}" ({})'
+if len(SINGLE_SONG) == 0:
+    filesList = []
+    for i in EXTS:
+        filesList.extend(glob.glob(AUD_PATH + i))
+    random.shuffle(filesList)
+else:
+    filesList = [AUD_PATH + SINGLE_SONG]
 
-for file in filesList:
+###############################################################################
+# Process
+###############################################################################
+for (i, file) in enumerate(filesList):
     NAME = file.split('/')[-1].split('.')[0]
     colorRand = list(range(len(COLORS)))
     random.shuffle(colorRand)
     (colorB, colorT) = (
-        [i / 255 for i in COLORS[colorRand.pop()]],
-        [i / 255 for i in COLORS[colorRand.pop()]]
+        aux.rescaleColor(COLORS[colorRand.pop()]),
+        aux.rescaleColor(COLORS[colorRand.pop()])
     )
     colorMap = [colorB, (1, 1, 1), colorT]
     cm = LinearSegmentedColormap.from_list("red", colorMap, N=500)
     ###########################################################################
     sound = AudioSegment.from_file(file=file)
     soundNorm = sound.normalize()
-    (left, right) = (soundNorm.split_to_mono()[0], soundNorm.split_to_mono()[1])
+    (left, right) = (
+        soundNorm.split_to_mono()[0],
+        soundNorm.split_to_mono()[1]
+    )
     peak_amplitude = sound.max
 
     ###########################################################################
@@ -70,20 +82,17 @@ for file in filesList:
         array.array(array_type, right._data)
     )
     mix = [signalL[i] + signalR[i] for i in range(len(signalL))]
-    print(max(mix))
+    print(processStr.format(i + 1, len(filesList), NAME, max(mix)))
 
     ###########################################################################
     # Plot signal
     ###########################################################################
     fig, ax = plt.subplots(figsize=(30, 6))
     ax.axis('off')
-    ax.get_xaxis().set_visible(False)
-    ax.get_yaxis().set_visible(False)
     plt.autoscale(tight=True)
     plt.scatter(
-        range(len(mix)),
-        mix, c=mix,
-        alpha=.25, cmap=cm, s=.05
+        range(len(mix)), mix,
+        c=mix, alpha=.2, cmap=cm, s=.05
     )
     plt.text(
         .5, .5-.01, NAME, fontdict=font,
