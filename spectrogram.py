@@ -9,6 +9,7 @@
 # https://gist.github.com/kylemcdonald/bedcc053db0e7843ef95c531957cb90f
 ###############################################################################
 
+import glob
 import array
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
@@ -16,6 +17,8 @@ from pydub.utils import get_array_type
 from matplotlib.colors import LinearSegmentedColormap
 
 
+
+NAME = 'Paranoid Android'
 ###############################################################################
 # Define style
 ###############################################################################
@@ -36,8 +39,9 @@ font = {
 ###############################################################################
 # Load data
 ###############################################################################
-NAME = 'Float On'
 (AUD_PATH, OUT_PATH, FILE) = ('./audio/', './out/', NAME + '.mp3')
+files = glob.glob(AUD_PATH + '*.mp3')
+
 sound = AudioSegment.from_file(file=AUD_PATH + FILE)
 soundNorm = sound.normalize()
 (left, right) = (soundNorm.split_to_mono()[0], soundNorm.split_to_mono()[1])
@@ -66,7 +70,7 @@ plt.autoscale(tight=True)
 plt.scatter(
     range(len(mix)),
     mix, c=mix,
-    alpha=.15, cmap=cm, s=.05
+    alpha=.25, cmap=cm, s=.05
 )
 plt.text(
     .5, .5-.02, NAME, fontdict=font,
