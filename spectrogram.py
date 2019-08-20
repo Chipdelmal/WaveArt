@@ -26,14 +26,14 @@ COLORS = [
     [125, 40, 155],     # Purple
     #[40, 155, 125],     # Green
     [150, 200, 255],    # Cyan
-    [155, 40, 125],     # Pink
+    [215, 5, 100],     # Pink
     [55, 5, 105]        # Dark Purple
 ]
 font = {
-    'fontname': "Silom",#'DIN Condensed',
+    'fontname': "Avenir",#'DIN Condensed',
     'color':  'black',
     'weight': 'light',
-    'size': 75, 'alpha': .075
+    'size': 100, 'alpha': .06
 }
 
 ###############################################################################
@@ -70,6 +70,7 @@ for file in filesList:
         array.array(array_type, right._data)
     )
     mix = [signalL[i] + signalR[i] for i in range(len(signalL))]
+    print(max(mix))
 
     ###########################################################################
     # Plot signal
@@ -91,7 +92,7 @@ for file in filesList:
     )
     plt.savefig(
         OUT_PATH + NAME + '.png',
-        dpi=500, bbox_inches='tight',
+        dpi=300, bbox_inches='tight',
         pad_inches=0
     )
     plt.close()
