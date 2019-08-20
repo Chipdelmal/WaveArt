@@ -11,6 +11,7 @@
 
 import aux
 import glob
+
 import array
 import random
 import matplotlib.pyplot as plt
@@ -18,7 +19,7 @@ from pydub import AudioSegment
 from pydub.utils import get_array_type
 from matplotlib.colors import LinearSegmentedColormap
 
-SINGLE_SONG = 'In Our Bedroom After the War.mp3'
+SINGLE_SONG = ''
 ###############################################################################
 # Define style
 ###############################################################################
