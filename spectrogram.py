@@ -18,7 +18,7 @@ from pydub import AudioSegment
 from pydub.utils import get_array_type
 from matplotlib.colors import LinearSegmentedColormap
 
-SINGLE_SONG = "Transatlanticism.mp3"
+SINGLE_SONG = "I Will Follow You Into the Dark.mp3"
 ###############################################################################
 # Define style
 ###############################################################################
@@ -34,7 +34,7 @@ COLORS = [
 font = {
     'fontname': "Avenir",
     'color':  'black', 'weight': 'light',
-    'size': 100, 'alpha': .06
+    'size': 80, 'alpha': .06
 }
 
 ###############################################################################
