@@ -18,7 +18,7 @@ from pydub import AudioSegment
 from pydub.utils import get_array_type
 from matplotlib.colors import LinearSegmentedColormap
 
-SINGLE_SONG = ''
+SINGLE_SONG = 'In Our Bedroom After the War.mp3'
 ###############################################################################
 # Define style
 ###############################################################################
@@ -29,12 +29,15 @@ COLORS = [
     [150, 200, 255],    # Cyan
     [215, 5, 100],      # Pink
     [55, 5, 105],       # Dark Purple
-    [255, 60, 125]      # Green
+    [255, 60, 125],     # Green
+    [255, 0, 60],       # Magenta
+    [150, 0, 255],      # Purple
+    [80, 50, 225]       # Purple
 ]
 font = {
     'fontname': "Avenir",
     'color':  'black', 'weight': 'light',
-    'size': 100, 'alpha': .06
+    'size': 100, 'alpha': 0.06
 }
 
 ###############################################################################
