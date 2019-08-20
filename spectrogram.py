@@ -18,7 +18,7 @@ from pydub import AudioSegment
 from pydub.utils import get_array_type
 from matplotlib.colors import LinearSegmentedColormap
 
-SINGLE_SONG = "I Will Follow You Into the Dark.mp3"
+SINGLE_SONG = ''
 ###############################################################################
 # Define style
 ###############################################################################
@@ -29,12 +29,12 @@ COLORS = [
     [150, 200, 255],    # Cyan
     [215, 5, 100],      # Pink
     [55, 5, 105],       # Dark Purple
-    [80, 215, 30]       # Green
+    [255, 60, 125]      # Green
 ]
 font = {
     'fontname': "Avenir",
     'color':  'black', 'weight': 'light',
-    'size': 80, 'alpha': .06
+    'size': 100, 'alpha': .06
 }
 
 ###############################################################################
