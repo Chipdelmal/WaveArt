@@ -3,6 +3,8 @@
 *.mp3
 *.png
 *.m4a
+outTemp/
+audioTemp/
 
 
 # Byte-compiled / optimized / DLL files

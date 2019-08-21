@@ -1,3 +1,7 @@
+###############################################################################
+# Aux
+#   Functions definitions and auxiliary routines needed by the wavearts script
+###############################################################################
 
 
 def rescaleColor(colorEightBit):

@@ -1,5 +1,5 @@
 ###############################################################################
-# Waveforms
+# WaveArt
 #   Playing around with the styling of the waveforms so that automation is
 #   easier in the future.
 ###############################################################################
@@ -9,42 +9,32 @@
 # https://gist.github.com/kylemcdonald/bedcc053db0e7843ef95c531957cb90f
 ###############################################################################
 
-import aux
+# Required libraries
 import glob
-
 import array
+import platform
 import random
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
 from pydub.utils import get_array_type
 from matplotlib.colors import LinearSegmentedColormap
+# Custom files
+import style
+import aux
+
 
 SINGLE_SONG = ''
 ###############################################################################
 # Define style
 ###############################################################################
-COLORS = [
-    [155, 40, 125],     # Red
-    [125, 40, 155],     # Purple
-    [1, 25, 150],       # Dark Blue
-    [150, 200, 255],    # Cyan
-    [215, 5, 100],      # Pink
-    [55, 5, 105],       # Dark Purple
-    [255, 60, 125],     # Green
-    [255, 0, 60],       # Magenta
-    [150, 0, 255],      # Purple
-    [80, 50, 225]       # Purple
-]
-font = {
-    'fontname': 'Liberation Sans Narrow',#'Ubuntu Mono', #"Avenir",
-    'color':  'black', 'weight': 'light',
-    'size': 100, 'alpha': 0.06
-}
+fontName = style.fontFromOS(platform.system())
+FONT = style.defineFont(fontName=fontName, size=100, alpha=.06)
+COLORS = style.COLORS_POOL
 
 ###############################################################################
 # Load Filenames
 ###############################################################################
-(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', '/home/chipdelmal/Google Drive/WaveArtNT/', ['*.mp3', '*.m4a'])
+(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
 processStr = 'Processing {}/{} "{}" ({})'
 if len(SINGLE_SONG) == 0:
     filesList = []
@@ -99,16 +89,17 @@ for (i, file) in enumerate(filesList):
     plt.autoscale(tight=True)
     plt.scatter(
         range(len(mix)), mix,
-        c=mix, alpha=.2, cmap=cm, s=.05
+        c=mix, alpha=.175, cmap=cm, s=.05
     )
-    # plt.text(
-    #     .5, .5-.01, NAME, fontdict=font,
-    #     horizontalalignment='center', verticalalignment='center',
-    #     transform=ax.transAxes
-    # )
+    plt.text(
+        .5, .5-.01, NAME, fontdict=FONT,
+        horizontalalignment='center', verticalalignment='center',
+        transform=ax.transAxes
+    )
     plt.savefig(
         OUT_PATH + NAME + '.png',
-        dpi=400, bbox_inches='tight',
+        dpi=300, bbox_inches='tight',
         pad_inches=0
     )
     plt.close()
+print("Finished")

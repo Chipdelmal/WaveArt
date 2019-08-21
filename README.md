@@ -16,6 +16,13 @@ For finer control over the parameters, please have a look at the `waveart.py` sc
 
 <img src="./media/Iris.jpg" width="100%" align="middle">
 
+##  Files' Description
+
+* `waveart.py`: Main plotting routine.
+* `fonts.py`: Lists all the fonts available to [matplotlib](https://matplotlib.org/) with an example.
+* `style.py`: Fonts, colors, and plot-styles definitions.
+* `aux.py`:
+
 ##  Dependencies
 
 The code requires the following dependencies installed:
