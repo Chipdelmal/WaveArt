@@ -36,7 +36,7 @@ COLORS = [
     [80, 50, 225]       # Purple
 ]
 font = {
-    'fontname': "Avenir",
+    'fontname': 'Liberation Sans Narrow',#'Ubuntu Mono', #"Avenir",
     'color':  'black', 'weight': 'light',
     'size': 100, 'alpha': 0.06
 }
@@ -44,7 +44,7 @@ font = {
 ###############################################################################
 # Load Filenames
 ###############################################################################
-(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
+(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', '/home/chipdelmal/Google Drive/WaveArtNT/', ['*.mp3', '*.m4a'])
 processStr = 'Processing {}/{} "{}" ({})'
 if len(SINGLE_SONG) == 0:
     filesList = []
@@ -53,7 +53,10 @@ if len(SINGLE_SONG) == 0:
     random.shuffle(filesList)
 else:
     filesList = [AUD_PATH + SINGLE_SONG]
-print(filesList)
+[print(str(i+1) + ': ' + path.split('/')[-1].split('.')[0]) for (i, path) in enumerate(filesList)]
+print("Writing to: " + OUT_PATH)
+print("\nProcessing...")
+
 ###############################################################################
 # Process
 ###############################################################################
@@ -98,14 +101,14 @@ for (i, file) in enumerate(filesList):
         range(len(mix)), mix,
         c=mix, alpha=.2, cmap=cm, s=.05
     )
-    plt.text(
-        .5, .5-.01, NAME, fontdict=font,
-        horizontalalignment='center', verticalalignment='center',
-        transform=ax.transAxes
-    )
+    # plt.text(
+    #     .5, .5-.01, NAME, fontdict=font,
+    #     horizontalalignment='center', verticalalignment='center',
+    #     transform=ax.transAxes
+    # )
     plt.savefig(
         OUT_PATH + NAME + '.png',
-        dpi=300, bbox_inches='tight',
+        dpi=400, bbox_inches='tight',
         pad_inches=0
     )
     plt.close()
