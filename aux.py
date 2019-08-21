@@ -6,3 +6,7 @@
 
 def rescaleColor(colorEightBit):
     return [i / 255 for i in colorEightBit]
+
+
+def getNameFromPath(path):
+    return path.split('/')[-1].split('.')[0]

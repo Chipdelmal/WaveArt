@@ -43,7 +43,9 @@ if len(SINGLE_SONG) == 0:
     random.shuffle(filesList)
 else:
     filesList = [AUD_PATH + SINGLE_SONG]
-[print(str(i+1) + ': ' + path.split('/')[-1].split('.')[0]) for (i, path) in enumerate(filesList)]
+
+
+[print(str(i+1) + ': ' + aux.getNameFromPath(path)) for (i, path) in enumerate(filesList)]
 print("Writing to: " + OUT_PATH)
 print("\nProcessing...")
 
@@ -84,18 +86,18 @@ for (i, file) in enumerate(filesList):
     ###########################################################################
     # Plot signal
     ###########################################################################
-    fig, ax = plt.subplots(figsize=(30, 6))
+    fig, ax = plt.subplots(figsize=(30, 16.875/4))#(30, 6))
     ax.axis('off')
     plt.autoscale(tight=True)
     plt.scatter(
         range(len(mix)), mix,
-        c=mix, alpha=.175, cmap=cm, s=.05
+        c=mix, alpha=.15, cmap=cm, s=.05
     )
-    plt.text(
-        .5, .5-.01, NAME, fontdict=FONT,
-        horizontalalignment='center', verticalalignment='center',
-        transform=ax.transAxes
-    )
+    # plt.text(
+    #     .5, .5-.01, NAME, fontdict=FONT,
+    #     horizontalalignment='center', verticalalignment='center',
+    #     transform=ax.transAxes
+    # )
     plt.savefig(
         OUT_PATH + NAME + '.png',
         dpi=300, bbox_inches='tight',

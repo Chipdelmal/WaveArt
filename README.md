@@ -21,7 +21,7 @@ For finer control over the parameters, please have a look at the `waveart.py` sc
 * `waveart.py`: Main plotting routine.
 * `fonts.py`: Lists all the fonts available to [matplotlib](https://matplotlib.org/) with an example.
 * `style.py`: Fonts, colors, and plot-styles definitions.
-* `aux.py`:
+* `aux.py`: Functions definitions for the main routine.
 
 ##  Dependencies
 
