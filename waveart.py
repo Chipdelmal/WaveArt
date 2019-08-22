@@ -68,11 +68,7 @@ for (i, file) in enumerate(filesList):
     ###########################################################################
     sound = AudioSegment.from_file(file=file)
     soundNorm = sound.normalize()
-    (left, right) = (
-        soundNorm.split_to_mono()[0],
-        soundNorm.split_to_mono()[1]
-    )
-    peak_amplitude = sound.max
+    (left, right) = (soundNorm.split_to_mono()[0], soundNorm.split_to_mono()[1])
 
     ###########################################################################
     # Process channels
@@ -84,7 +80,7 @@ for (i, file) in enumerate(filesList):
         array.array(array_type, right._data)
     )
     mix = [signalL[i] + signalR[i] for i in range(len(signalL))]
-    print(processStr.format(i + 1, len(filesList), NAME, max(mix)))
+    print(processStr.format(i + 1, len(filesList), NAME))
 
     ###########################################################################
     # Plot signal
