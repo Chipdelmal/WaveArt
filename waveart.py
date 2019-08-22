@@ -23,7 +23,7 @@ import style
 import aux
 
 
-SINGLE_SONG = ''
+(SINGLE_SONG, RANDOM_ORDER, PRINT_NAME) = ('', True, True)
 ###############################################################################
 # Define style
 ###############################################################################
@@ -40,12 +40,15 @@ if len(SINGLE_SONG) == 0:
     filesList = []
     for i in EXTS:
         filesList.extend(glob.glob(AUD_PATH + i))
-    random.shuffle(filesList)
+    if (RANDOM_ORDER):
+        random.shuffle(filesList)
+    else:
+        filesList = sorted(filesList)
 else:
     filesList = [AUD_PATH + SINGLE_SONG]
 
 
-[print(str(i+1) + ': ' + aux.getNameFromPath(path)) for (i, path) in enumerate(filesList)]
+aux.printFilesList(filesList)
 print("Writing to: " + OUT_PATH)
 print("\nProcessing...")
 
@@ -93,11 +96,12 @@ for (i, file) in enumerate(filesList):
         range(len(mix)), mix,
         c=mix, alpha=.15, cmap=cm, s=.05
     )
-    # plt.text(
-    #     .5, .5-.01, NAME, fontdict=FONT,
-    #     horizontalalignment='center', verticalalignment='center',
-    #     transform=ax.transAxes
-    # )
+    if PRINT_NAME:
+        plt.text(
+            .5, .5-.01, NAME, fontdict=FONT,
+            horizontalalignment='center', verticalalignment='center',
+            transform=ax.transAxes
+        )
     plt.savefig(
         OUT_PATH + NAME + '.png',
         dpi=300, bbox_inches='tight',

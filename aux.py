@@ -10,3 +10,10 @@ def rescaleColor(colorEightBit):
 
 def getNameFromPath(path):
     return path.split('/')[-1].split('.')[0]
+
+def printFilesList(filesList):
+    [
+        print(str(i+1) + ': ' +
+        getNameFromPath(path)) for (i, path) in enumerate(filesList)
+    ]
+    return True
