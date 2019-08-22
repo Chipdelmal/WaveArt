@@ -1,0 +1,3 @@
+# WaveArt
+
+Default output folder!
