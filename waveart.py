@@ -35,7 +35,7 @@ COLORS = style.COLORS_POOL
 # Load Filenames
 ###############################################################################
 (AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
-processStr = 'Processing {}/{} "{}" ({})'
+processStr = 'Processing {}/{} "{}"'
 if len(SINGLE_SONG) == 0:
     filesList = []
     for i in EXTS:
@@ -105,3 +105,5 @@ for (i, file) in enumerate(filesList):
     )
     plt.close()
 print("Finished")
+
+len(filesList)
