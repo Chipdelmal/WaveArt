@@ -10,15 +10,15 @@ For an "automatic" selection of parameters:
 
 1. Place your `MP3` and `M4A` files in the `./audio/` folder.
 2. Rename the files with the song title (for overlaying purposes).
-3. Run the `waveart.py` file. This will load and process the files and randomly select colors from a pre-defined pool.
+3. Run the `main.py` file. This will load and process the files and randomly select colors from a pre-defined pool.
 
-For finer control over the parameters, please have a look at the `waveart.py` script and modify as needed (will make improvements on the code in the near future).
+For finer control over the parameters, please have a look at the `main.py` script and modify as needed (will make improvements on the code in the near future).
 
 <img src="./media/Iris.jpg" width="100%" align="middle">
 
 ##  Files' Description
 
-* `waveart.py`: Main plotting routine.
+* `main.py`: Main plotting routine.
 * `fonts.py`: Lists all the fonts available to [matplotlib](https://matplotlib.org/) with an example.
 * `style.py`: Fonts, colors, and plot-styles definitions.
 * `aux.py`: Functions definitions for the main routine.

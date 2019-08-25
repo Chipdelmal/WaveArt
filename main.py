@@ -10,77 +10,47 @@
 ###############################################################################
 
 # Required libraries
+import os
 import glob
 import array
 import platform
-import random
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
 from pydub.utils import get_array_type
-from matplotlib.colors import LinearSegmentedColormap
 # Custom files
 import style
 import aux
 
 
 (SINGLE_SONG, RANDOM_ORDER, PRINT_NAME) = ('', True, True)
+(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
 ###############################################################################
 # Define style
 ###############################################################################
 fontName = style.fontFromOS(platform.system())
-FONT = style.defineFont(fontName=fontName, size=100, alpha=.06)
+FONT = style.defineFont(fontName=fontName, size=75, alpha=.06)
 COLORS = style.COLORS_POOL
 
 ###############################################################################
 # Load Filenames
 ###############################################################################
-(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
-processStr = 'Processing {}/{} "{}"'
-if len(SINGLE_SONG) == 0:
-    filesList = []
-    for i in EXTS:
-        filesList.extend(glob.glob(AUD_PATH + i))
-    if (RANDOM_ORDER):
-        random.shuffle(filesList)
-    else:
-        filesList = sorted(filesList)
-else:
-    filesList = [AUD_PATH + SINGLE_SONG]
-
-
+filesList = aux.getSongsPaths(AUD_PATH, EXTS, SINGLE_SONG, RANDOM_ORDER)
 aux.printFilesList(filesList)
-print("Writing to: " + OUT_PATH)
-print("\nProcessing...")
+print("Writing to: " + OUT_PATH + "\n\nProcessing...")
 
 ###############################################################################
 # Process
 ###############################################################################
+processStr = 'Processing {}/{} "{}"'
 for (i, file) in enumerate(filesList):
-    NAME = file.split('/')[-1].split('.')[0]
-    colorRand = list(range(len(COLORS)))
-    random.shuffle(colorRand)
-    (colorB, colorT) = (
-        aux.rescaleColor(COLORS[colorRand.pop()]),
-        aux.rescaleColor(COLORS[colorRand.pop()])
-    )
-    colorMap = [colorB, (1, 1, 1), colorT]
-    cm = LinearSegmentedColormap.from_list("red", colorMap, N=500)
+    (fileName, songName) = aux.getFileAndSongNames(file)
+    cm = aux.defineColorMap(COLORS)
+    ###########################################################################
+    # Get Signal
     ###########################################################################
     sound = AudioSegment.from_file(file=file)
-    soundNorm = sound.normalize()
-    (left, right) = (soundNorm.split_to_mono()[0], soundNorm.split_to_mono()[1])
-
-    ###########################################################################
-    # Process channels
-    ###########################################################################
-    bit_depth = left.sample_width * 8
-    array_type = get_array_type(bit_depth)
-    (signalL, signalR) = (
-        array.array(array_type, left._data),
-        array.array(array_type, right._data)
-    )
-    mix = [signalL[i] + signalR[i] for i in range(len(signalL))]
-    print(processStr.format(i + 1, len(filesList), NAME))
+    mix = aux.getMixedChannels(sound.normalize())
+    print(processStr.format(i + 1, len(filesList), songName))
 
     ###########################################################################
     # Plot signal
@@ -94,16 +64,14 @@ for (i, file) in enumerate(filesList):
     )
     if PRINT_NAME:
         plt.text(
-            .5, .5-.01, NAME, fontdict=FONT,
+            .5, .5-.01, songName, fontdict=FONT,
             horizontalalignment='center', verticalalignment='center',
             transform=ax.transAxes
         )
     plt.savefig(
-        OUT_PATH + NAME + '.png',
+        OUT_PATH + fileName + '.png',
         dpi=300, bbox_inches='tight',
         pad_inches=0
     )
     plt.close()
 print("Finished")
-
-len(filesList)

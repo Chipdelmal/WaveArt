@@ -10,7 +10,7 @@ def fontFromOS(systemName):
     return FONT
 
 
-def defineFont(fontName, color='black', size=100, alpha=.06):
+def defineFont(fontName, color='black', size=50, alpha=.06):
     fontDict = {
         'fontname': fontName,
         'color': color, 'weight': 'light',
