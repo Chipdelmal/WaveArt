@@ -1,7 +1,7 @@
 ###############################################################################
 # WaveArt
-#   Playing around with the styling of the waveforms so that automation is
-#   easier in the future.
+#   This script takes an audio file (or multiple files), and generates an
+#       attractive representation of its waveform.
 ###############################################################################
 # https://matplotlib.org/users/text_props.html
 # https://matplotlib.org/api/_as_gen/matplotlib.colors.LinearSegmentedColormap.html#matplotlib.colors.LinearSegmentedColormap.from_list
