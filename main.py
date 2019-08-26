@@ -34,7 +34,7 @@ COLORS = style.COLORS_POOL
 # Load Filenames (paths)
 ###############################################################################
 filesList = aux.getSongsPaths(AUD_PATH, EXTS, SINGLE_SONG, RANDOM_ORDER)
-print("Processing: " + OUT_PATH + "\n)
+print("Loaded: ")
 aux.printFilesList(filesList)
 print("Writing to: " + OUT_PATH + "\n\nProcessing...")
 
