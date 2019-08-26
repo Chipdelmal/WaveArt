@@ -33,6 +33,7 @@ def getNameFromPath(path):
 
 
 def printFilesList(filesList):
+    print("Loaded: ")
     [
         print(str(i+1) + ': ' +
         getNameFromPath(path)) for (i, path) in enumerate(filesList)

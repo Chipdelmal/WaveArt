@@ -27,21 +27,20 @@ import style
 # Define style
 ###############################################################################
 fontName = style.fontFromOS(platform.system())
-FONT = style.defineFont(fontName=fontName, size=75, alpha=.06)
-COLORS = style.COLORS_POOL
-
+(FONT, COLORS) = (
+        style.defineFont(fontName=fontName, size=75, alpha=.06),
+        style.COLORS_POOL
+    )
 ###############################################################################
 # Load Filenames (paths)
 ###############################################################################
 filesList = aux.getSongsPaths(AUD_PATH, EXTS, SINGLE_SONG, RANDOM_ORDER)
-print("Loaded: ")
 aux.printFilesList(filesList)
-print("Writing to: " + OUT_PATH + "\n\nProcessing...")
-
+print("Writing to: " + OUT_PATH + "\n\nWorking...")
 ###############################################################################
 # Process Files
 ###############################################################################
-processStr = 'Processing {}/{} "{}"'
+processStr = 'Processing ({}/{}): "{}"'
 for (i, file) in enumerate(filesList):
     (fileName, songName) = aux.getFileAndSongNames(file)
     cm = plot.defineColorMap(COLORS)
