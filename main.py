@@ -9,17 +9,9 @@
 # https://gist.github.com/kylemcdonald/bedcc053db0e7843ef95c531957cb90f
 ###############################################################################
 
-# Required libraries
-import os
-import glob
 import platform
-import matplotlib.pyplot as plt
+import aux, plot, style
 from pydub import AudioSegment
-# Auxiliary files on the repository
-import aux
-import plot
-import style
-
 
 (SINGLE_SONG, RANDOM_ORDER, PRINT_NAME, DPI) = ('', True, True, 500)
 (AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
@@ -35,12 +27,13 @@ fontName = style.fontFromOS(platform.system())
 # Load Filenames (paths)
 ###############################################################################
 filesList = aux.getSongsPaths(AUD_PATH, EXTS, SINGLE_SONG, RANDOM_ORDER)
+print("Loaded [" + AUD_PATH + "]:")
 aux.printFilesList(filesList)
-print("Writing to: " + OUT_PATH + "\n\nWorking...")
+print("\nWorking [" + OUT_PATH + "]:")
 ###############################################################################
 # Process Files
 ###############################################################################
-processStr = 'Processing ({}/{}): "{}"'
+processStr = '\tProcessing ({}/{}): "{}"'
 for (i, file) in enumerate(filesList):
     (fileName, songName) = aux.getFileAndSongNames(file)
     cm = plot.defineColorMap(COLORS)
