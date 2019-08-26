@@ -2,6 +2,9 @@
 # Plot
 #   Plot-related routines for the main.py
 ###############################################################################
+# https://matplotlib.org/users/text_props.html
+# https://matplotlib.org/api/_as_gen/matplotlib.colors.LinearSegmentedColormap.html#matplotlib.colors.LinearSegmentedColormap.from_list
+###############################################################################
 
 import random
 import matplotlib.pyplot as plt
@@ -48,9 +51,9 @@ def plotWave(
         )
     return (fig, ax)
 
-def saveWave(outPath, fileName, DPI):
+def saveWave(outPath, fileName, DPI, fileType=".png"):
     plt.savefig(
-        outPath + fileName + '.png',
+        outPath + fileName + fileType,
         dpi=DPI, bbox_inches='tight',
         pad_inches=0
     )
