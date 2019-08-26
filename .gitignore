@@ -1,8 +1,9 @@
-#
+# Ignore bloated files
 *.wav
 *.mp3
 *.png
 *.m4a
+*.ai
 outTemp/
 audioTemp/
 
