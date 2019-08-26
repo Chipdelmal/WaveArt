@@ -12,17 +12,16 @@
 # Required libraries
 import os
 import glob
-import array
 import platform
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
-from pydub.utils import get_array_type
-# Custom files
-import style
+# Auxiliary files on the repository
 import aux
+import plot
+import style
 
 
-(SINGLE_SONG, RANDOM_ORDER, PRINT_NAME) = ('', True, True)
+(SINGLE_SONG, RANDOM_ORDER, PRINT_NAME, DPI) = ('', True, True, 500)
 (AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
 ###############################################################################
 # Define style
@@ -32,46 +31,32 @@ FONT = style.defineFont(fontName=fontName, size=75, alpha=.06)
 COLORS = style.COLORS_POOL
 
 ###############################################################################
-# Load Filenames
+# Load Filenames (paths)
 ###############################################################################
 filesList = aux.getSongsPaths(AUD_PATH, EXTS, SINGLE_SONG, RANDOM_ORDER)
+print("Processing: " + OUT_PATH + "\n)
 aux.printFilesList(filesList)
 print("Writing to: " + OUT_PATH + "\n\nProcessing...")
 
 ###############################################################################
-# Process
+# Process Files
 ###############################################################################
 processStr = 'Processing {}/{} "{}"'
 for (i, file) in enumerate(filesList):
     (fileName, songName) = aux.getFileAndSongNames(file)
-    cm = aux.defineColorMap(COLORS)
+    cm = plot.defineColorMap(COLORS)
     ###########################################################################
     # Get Signal
     ###########################################################################
     sound = AudioSegment.from_file(file=file)
     mix = aux.getMixedChannels(sound.normalize())
     print(processStr.format(i + 1, len(filesList), songName))
-
     ###########################################################################
     # Plot signal
     ###########################################################################
-    fig, ax = plt.subplots(figsize=(30, 16.875/4))#(30, 6))
-    ax.axis('off')
-    plt.autoscale(tight=True)
-    plt.scatter(
-        range(len(mix)), mix,
-        c=mix, alpha=.15, cmap=cm, s=.05
+    plot.plotWave(
+        mix, songName, PRINT_NAME,
+        colorMap=cm, font=FONT, alpha=.075, s=.05, figSize=(30, 16.875/4)
     )
-    if PRINT_NAME:
-        plt.text(
-            .5, .5-.01, songName, fontdict=FONT,
-            horizontalalignment='center', verticalalignment='center',
-            transform=ax.transAxes
-        )
-    plt.savefig(
-        OUT_PATH + fileName + '.png',
-        dpi=300, bbox_inches='tight',
-        pad_inches=0
-    )
-    plt.close()
+    plot.saveWave(OUT_PATH, fileName, DPI)
 print("Finished")

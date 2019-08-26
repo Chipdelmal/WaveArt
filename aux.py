@@ -1,31 +1,16 @@
 ###############################################################################
 # Aux
-#   Functions definitions and auxiliary routines needed by the wavearts script
+#   Functions needed by the wavearts script
 ###############################################################################
 
 # Required libraries
 import os
 import glob
 import array
+import style
 import random
 from pydub.utils import mediainfo
 from pydub.utils import get_array_type
-from matplotlib.colors import LinearSegmentedColormap
-
-def rescaleColor(colorEightBit):
-    return [i / 255 for i in colorEightBit]
-
-
-def getNameFromPath(path):
-    return path.split('/')[-1].split('.')[0]
-
-
-def printFilesList(filesList):
-    [
-        print(str(i+1) + ': ' +
-        getNameFromPath(path)) for (i, path) in enumerate(filesList)
-    ]
-    return True
 
 
 def getMixedChannels(sound):
@@ -43,20 +28,16 @@ def getMixedChannels(sound):
     return mix
 
 
-def sampleColorsRandomly(colorsPool):
-    colorRand = list(range(len(colorsPool)))
-    (colorB, colorT) = (
-        rescaleColor(colorsPool[colorRand.pop()]),
-        rescaleColor(colorsPool[colorRand.pop()])
-    )
-    return (colorB, colorT)
+def getNameFromPath(path):
+    return path.split('/')[-1].split('.')[0]
 
 
-def defineColorMap(colorsPool):
-    (colorB, colorT) = sampleColorsRandomly(colorsPool)
-    colorMap = [colorB, (1, 1, 1), colorT]
-    cm = LinearSegmentedColormap.from_list("red", colorMap, N=500)
-    return cm
+def printFilesList(filesList):
+    [
+        print(str(i+1) + ': ' +
+        getNameFromPath(path)) for (i, path) in enumerate(filesList)
+    ]
+    return True
 
 
 def getFileAndSongNames(filePath):
