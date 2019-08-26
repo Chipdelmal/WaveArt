@@ -14,7 +14,11 @@ import aux, plot, style
 from pydub import AudioSegment
 
 (SINGLE_SONG, RANDOM_ORDER, PRINT_NAME, DPI) = ('', True, True, 500)
-(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
+(AUD_PATH, OUT_PATH, EXTS) = (
+    './audio/',
+    './out/',
+    ['*.mp3', '*.m4a']
+)
 ###############################################################################
 # Define style
 ###############################################################################
@@ -48,7 +52,7 @@ for (i, file) in enumerate(filesList):
     ###########################################################################
     plot.plotWave(
         mix, songName, PRINT_NAME,
-        colorMap=cm, font=FONT, alpha=.075, s=.05, figSize=(30, 16.875/4)
+        colorMap=cm, font=FONT, alpha=.15, s=.05, figSize=(30, 16.875/4)
     )
     plot.saveWave(OUT_PATH, fileName, DPI)
 print("Finished")
