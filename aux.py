@@ -2,8 +2,10 @@
 # Aux
 #   Functions needed by the wavearts script
 ###############################################################################
+# https://stackoverflow.com/questions/9458480/read-mp3-in-python-3/45380892
+# https://gist.github.com/kylemcdonald/bedcc053db0e7843ef95c531957cb90f
+###############################################################################
 
-# Required libraries
 import os
 import glob
 import array

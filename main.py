@@ -1,12 +1,7 @@
 ###############################################################################
 # WaveArt
-#   Playing around with the styling of the waveforms so that automation is
-#   easier in the future.
-###############################################################################
-# https://matplotlib.org/users/text_props.html
-# https://matplotlib.org/api/_as_gen/matplotlib.colors.LinearSegmentedColormap.html#matplotlib.colors.LinearSegmentedColormap.from_list
-# https://stackoverflow.com/questions/9458480/read-mp3-in-python-3/45380892
-# https://gist.github.com/kylemcdonald/bedcc053db0e7843ef95c531957cb90f
+#   This script takes an audio file (or multiple files), and generates an
+#       attractive representation of its waveform.
 ###############################################################################
 
 import platform
@@ -14,13 +9,17 @@ import aux, plot, style
 from pydub import AudioSegment
 
 (SINGLE_SONG, RANDOM_ORDER, PRINT_NAME, DPI) = ('', True, True, 500)
-(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
+(AUD_PATH, OUT_PATH, EXTS) = (
+    './audio/',
+    './out/',
+    ['*.mp3', '*.m4a']
+)
 ###############################################################################
 # Define style
 ###############################################################################
 fontName = style.fontFromOS(platform.system())
 (FONT, COLORS) = (
-        style.defineFont(fontName=fontName, size=75, alpha=.075),
+        style.defineFont(fontName=fontName, size=45, alpha=.04),
         style.COLORS_POOL
     )
 ###############################################################################
@@ -48,7 +47,7 @@ for (i, file) in enumerate(filesList):
     ###########################################################################
     plot.plotWave(
         mix, songName, PRINT_NAME,
-        colorMap=cm, font=FONT, alpha=.1, s=.005, figSize=(30, 16.875/4)
+        colorMap=cm, font=FONT, alpha=.2, s=.01, figSize=(30, 16.875/4)
     )
-    plot.saveWave(OUT_PATH, fileName, DPI)
+    plot.saveWave(OUT_PATH, fileName, DPI, fileType=".png")
 print("Finished")
