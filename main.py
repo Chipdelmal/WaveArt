@@ -1,19 +1,17 @@
 ###############################################################################
-# WaveArt
+# WaveArt
 #   This script takes an audio file (or multiple files), and generates an
 #       attractive representation of its waveform.
 ###############################################################################
 
 import platform
-import aux, plot, style
+import aux
+import plot
+import style
 from pydub import AudioSegment
 
 (SINGLE_SONG, RANDOM_ORDER, PRINT_NAME, DPI) = ('', True, True, 500)
-(AUD_PATH, OUT_PATH, EXTS) = (
-    './audio/',
-    './out/',
-    ['*.mp3', '*.m4a']
-)
+(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
 ###############################################################################
 # Define style
 ###############################################################################
@@ -46,8 +44,8 @@ for (i, file) in enumerate(filesList):
     # Plot signal
     ###########################################################################
     plot.plotWave(
-        mix, songName, PRINT_NAME,
-        colorMap=cm, font=FONT, alpha=.2, s=.01, figSize=(30, 16.875/4)
-    )
+            mix, songName, PRINT_NAME,
+            colorMap=cm, font=FONT, alpha=.2, s=.01, figSize=(30, 16.875/4)
+        )
     plot.saveWave(OUT_PATH, fileName, DPI, fileType=".png")
 print("Finished")

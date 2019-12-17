@@ -16,10 +16,8 @@ from pydub.utils import get_array_type
 
 
 def getMixedChannels(sound):
-    (left, right) = (
-            sound.split_to_mono()[0],
-            sound.split_to_mono()[1]
-        )
+    # Combines two channels of a loaded song into a single array
+    (left, right) = (sound.split_to_mono()[0], sound.split_to_mono()[1])
     bit_depth = left.sample_width * 8
     array_type = get_array_type(bit_depth)
     (signalL, signalR) = (
@@ -31,24 +29,26 @@ def getMixedChannels(sound):
 
 
 def getNameFromPath(path):
+    # Return the name of the file in a path (not safe for names with '.')
     return path.split('/')[-1].split('.')[0]
 
 
 def printFilesList(filesList):
-    [
-        print("\t" + str(i+1) + ': '
-              + getNameFromPath(path)) for (i, path) in enumerate(filesList)
-        ]
+    # Auxiliary function for terminal printing
+    [print('\t' + str(i + 1) + ': ' + getNameFromPath(path)) for (i, path) in enumerate(filesList)]
     return True
 
 
 def getFileAndSongNames(filePath):
+    # Returns the paths and names of the songs contained in a given folder
+    #   with the name being loaded from the files' metadata.
     fileName = os.path.splitext(filePath.split('/')[-1])[0]
     songName = mediainfo(filePath).get('TAG', None)['title']
     return (fileName, songName)
 
 
 def getSongsPaths(AUD_PATH, EXTS, SINGLE_SONG, RANDOM_ORDER):
+    # Auxiliary function for batch processing of songs
     if len(SINGLE_SONG) == 0:
         filesList = []
         for i in EXTS:

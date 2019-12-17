@@ -3,12 +3,13 @@
 #   Definitions of fonts and colors pool
 ###############################################################################
 
+# Pool of colors for plotting
 COLORS_POOL = [
-    [155, 40, 125], [125, 40, 155], [1, 25, 150],
-    [150, 200, 255], [215, 5, 100], [55, 5, 105],
-    [255, 60, 125],  [255, 0, 60],  [150, 0, 255],
-    [80, 50, 225], [130, 165, 230]
-]
+        [155, 40, 125], [125, 40, 155], [1, 25, 150],
+        [150, 200, 255], [215, 5, 100], [55, 5, 105],
+        [255, 60, 125],  [255, 0, 60],  [150, 0, 255],
+        [80, 50, 225], [130, 165, 230]
+    ]
 
 
 def fontFromOS(systemName):
@@ -24,8 +25,8 @@ def fontFromOS(systemName):
 
 def defineFont(fontName, color='black', size=50, alpha=.06):
     fontDict = {
-        'fontname': fontName,
-        'color': color, 'weight': 'light',
-        'size': size, 'alpha': alpha
+            'fontname': fontName,
+            'color': color, 'weight': 'light',
+            'size': size, 'alpha': alpha
         }
     return fontDict
