@@ -1,5 +1,5 @@
 ###############################################################################
-# Aux
+# Aux
 #   Functions needed by the wavearts script
 ###############################################################################
 
@@ -21,9 +21,9 @@ def getMixedChannels(sound):
     bit_depth = left.sample_width * 8
     array_type = get_array_type(bit_depth)
     (signalL, signalR) = (
-        array.array(array_type, left._data),
-        array.array(array_type, right._data)
-    )
+            array.array(array_type, left._data),
+            array.array(array_type, right._data)
+        )
     mix = [signalL[i] + signalR[i] for i in range(len(signalL))]
     return mix
 
@@ -34,15 +34,15 @@ def getNameFromPath(path):
 
 def printFilesList(filesList):
     [
-        print("\t" + str(i+1) + ': ' +
-        getNameFromPath(path)) for (i, path) in enumerate(filesList)
-    ]
+        print("\t" + str(i+1) + ': '
+              + getNameFromPath(path)) for (i, path) in enumerate(filesList)
+        ]
     return True
 
 
 def getFileAndSongNames(filePath):
     fileName = os.path.splitext(filePath.split('/')[-1])[0]
-    songName = mediainfo(filePath).get('TAG',None)['title']
+    songName = mediainfo(filePath).get('TAG', None)['title']
     return (fileName, songName)
 
 

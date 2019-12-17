@@ -1,8 +1,7 @@
 ###############################################################################
-# Style
+# Style
 #   Definitions of fonts and colors pool
 ###############################################################################
-
 
 COLORS_POOL = [
     [155, 40, 125], [125, 40, 155], [1, 25, 150],
@@ -28,5 +27,5 @@ def defineFont(fontName, color='black', size=50, alpha=.06):
         'fontname': fontName,
         'color': color, 'weight': 'light',
         'size': size, 'alpha': alpha
-    }
+        }
     return fontDict
