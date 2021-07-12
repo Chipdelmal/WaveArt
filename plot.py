@@ -47,7 +47,8 @@ def plotWave(
     plt.autoscale(tight=True)
     plt.scatter(
             range(len(mix)), mix,
-            c=mix, alpha=alpha, cmap=colorMap, s=s
+            c=mix, alpha=alpha, cmap=colorMap, s=s, 
+            marker=',', edgecolors='none'
         )
     # For the song-name overlay
     if printName:

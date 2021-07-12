@@ -4,6 +4,7 @@
 *.png
 *.m4a
 *.ai
+*.svg
 outTemp/
 audioTemp/
 
@@ -131,3 +132,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+out/71qtTEW46SL._SX522_.jpg

@@ -17,7 +17,7 @@ from pydub import AudioSegment
 ###############################################################################
 fontName = style.fontFromOS(platform.system())
 (FONT, COLORS) = (
-        style.defineFont(fontName=fontName, size=45, alpha=.04),
+        style.defineFont(fontName=fontName, size=15, alpha=.3),
         style.COLORS_POOL
     )
 ###############################################################################
@@ -45,7 +45,8 @@ for (i, file) in enumerate(filesList):
     ###########################################################################
     plot.plotWave(
             mix, songName, PRINT_NAME,
-            colorMap=cm, font=FONT, alpha=.2, s=.01, figSize=(30, 16.875/4)
+            colorMap=cm, font=FONT, 
+            alpha=.5, s=.01, figSize=(12, 12/12)
         )
     plot.saveWave(OUT_PATH, fileName, DPI, fileType=".png")
 print("Finished")
