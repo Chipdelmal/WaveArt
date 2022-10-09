@@ -10,14 +10,19 @@ import plot
 import style
 from pydub import AudioSegment
 
-(SINGLE_SONG, RANDOM_ORDER, PRINT_NAME, DPI) = ('', True, True, 500)
-(AUD_PATH, OUT_PATH, EXTS) = ('./audio/', './out/', ['*.mp3', '*.m4a'])
+(SINGLE_SONG, RANDOM_ORDER, PRINT_NAME, DPI) = ('', False, True, 500)
+(AUD_PATH, OUT_PATH, EXTS) = (
+    './Schemes/Maudlin/', 
+    './Schemes/Maudlin/', 
+    ['*.mp3', '*.m4a']
+)
+TRK_NUM = 11
 ###############################################################################
 # Define style
 ###############################################################################
 fontName = style.fontFromOS(platform.system())
 (FONT, COLORS) = (
-        style.defineFont(fontName=fontName, size=15, alpha=.3),
+        style.defineFont(fontName=fontName, size=35, alpha=.3),
         style.COLORS_POOL
     )
 ###############################################################################
@@ -46,7 +51,7 @@ for (i, file) in enumerate(filesList):
     plot.plotWave(
             mix, songName, PRINT_NAME,
             colorMap=cm, font=FONT, 
-            alpha=.5, s=.01, figSize=(12, 12/12)
+            alpha=.5, s=24/100, figSize=(24, 24/TRK_NUM)
         )
     plot.saveWave(OUT_PATH, fileName, DPI, fileType=".png")
 print("Finished")

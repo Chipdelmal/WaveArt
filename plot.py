@@ -64,7 +64,8 @@ def saveWave(outPath, fileName, DPI, fileType=".png"):
     # Saves the plot
     plt.savefig(
             outPath + fileName + fileType,
-            dpi=DPI, bbox_inches='tight', pad_inches=0
+            dpi=DPI, bbox_inches='tight', pad_inches=0, 
+            transparent=True
         )
     plt.close()
     return True
