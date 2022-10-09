@@ -47,6 +47,15 @@ def getFileAndSongNames(filePath):
     return (fileName, songName)
 
 
+def getFileAndSongInfo(filePath):
+    # Returns the paths and names of the songs contained in a given folder
+    #   with the name being loaded from the files' metadata.
+    fileName = os.path.splitext(filePath.split('/')[-1])[0]
+    songName = mediainfo(filePath).get('TAG', None)['title']
+    songArtist = mediainfo(filePath).get('TAG', None)['artist']
+    return (fileName, songName, songArtist)
+
+
 def getSongsPaths(AUD_PATH, EXTS, SINGLE_SONG, RANDOM_ORDER):
     # Auxiliary function for batch processing of songs
     if len(SINGLE_SONG) == 0:

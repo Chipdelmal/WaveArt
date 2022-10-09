@@ -60,12 +60,12 @@ def plotWave(
     return (fig, ax)
 
 
-def saveWave(outPath, fileName, DPI, fileType=".png"):
+def saveWave(outPath, fileName, DPI, fileType=".png", transparent=True):
     # Saves the plot
     plt.savefig(
             outPath + fileName + fileType,
             dpi=DPI, bbox_inches='tight', pad_inches=0, 
-            transparent=True
+            transparent=transparent
         )
     plt.close()
     return True
