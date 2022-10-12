@@ -5,6 +5,7 @@
 *.m4a
 *.ai
 *.svg
+*.m3u
 outTemp/
 audioTemp/
 
