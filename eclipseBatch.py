@@ -2,7 +2,7 @@
 import subprocess
 from tqdm import tqdm
 from glob import glob
-from termcolor import colored, cprint
+from termcolor import cprint
 from os.path import expanduser, join
 
 

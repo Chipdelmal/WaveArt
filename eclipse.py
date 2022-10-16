@@ -2,15 +2,16 @@
 import aux
 import array
 from os import path
-from os.path import expanduser
 import numpy as np
 from numpy import pi
-from sys import argv
+from sys import argv, exit
+from termcolor import cprint
+from os.path import expanduser
 import matplotlib.pyplot as plt
 from pydub import AudioSegment
-from pydub.utils import mediainfo, get_array_type
+from pydub.utils import get_array_type
 import matplotlib
-# matplotlib.use('agg')
+matplotlib.use('agg')
 
 
 if aux.isNotebook():
@@ -34,12 +35,13 @@ DPI = 250
 ###############################################################################
 # Load song info and data 
 ###############################################################################
-(fileName, songName, songArtist) = aux.getFileAndSongInfo(AUD_PATH)
-sound = AudioSegment.from_file(file=AUD_PATH)
 try:
+    (fileName, songName, songArtist) = aux.getFileAndSongInfo(AUD_PATH)
+    sound = AudioSegment.from_file(file=AUD_PATH)
     channels = sound.split_to_mono()
 except:
-    print(f"Not stereo: {fileName}")
+    cprint(f"* Error with file: {AUD_PATH}", "blue")
+    exit()
 bitDepth = channels[0].sample_width*8
 arrayType = get_array_type(bitDepth)
 # Check if plot exists --------------------------------------------------------
