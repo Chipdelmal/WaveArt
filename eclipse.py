@@ -40,7 +40,7 @@ try:
     sound = AudioSegment.from_file(file=AUD_PATH)
     channels = sound.split_to_mono()
 except:
-    cprint(f"* Error with file: {AUD_PATH}", "blue")
+    cprint(f"Error: {AUD_PATH}", "red")
     exit()
 bitDepth = channels[0].sample_width*8
 arrayType = get_array_type(bitDepth)

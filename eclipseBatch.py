@@ -14,7 +14,7 @@ from os.path import expanduser, join
 playlists = glob(join(AUD_PATH, '*m3u'))
 # Process playlists -----------------------------------------------------------
 for playlist in playlists[:]:
-    cprint(playlist, 'red')
+    cprint(playlist, 'white')
     # Get filenames from playlist ---------------------------------------------
     myFile = open(playlist, "r")
     data = myFile.read()
