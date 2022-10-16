@@ -9,16 +9,20 @@ import matplotlib.pyplot as plt
 from pydub import AudioSegment
 from pydub.utils import mediainfo
 from pydub.utils import get_array_type
+import matplotlib
+matplotlib.use('agg')
 
-(SINGLE_SONG, RANDOM_ORDER, PRINT_NAME, DPI) = ('', False, True, 300)
+(SINGLE_SONG, RANDOM_ORDER, PRINT_NAME, DPI) = ('', False, True, 250)
 (AUD_PATH, OUT_PATH, EXTS) = (
     './Schemes/', 
     '/home/chipdelmal/Documents/Sync/Waveart/', 
     ['*.mp3', '*.m4a']
 )
+OVW = False
 ix = -6
 playlists = glob(AUD_PATH+'*m3u')
-for playlist in playlists:
+for playlist in playlists[:]:
+    print(playlist)
     # Get filenames from playlist ---------------------------------------------
     my_file = open(playlist, "r")
     data = my_file.read()
@@ -32,15 +36,24 @@ for playlist in playlists:
     (diffAmp, rollPad) = (1.25, 10)
     file = files[ix]
     for file in tqdm(files[::]):
-        print(file)
+        # print(file)
+        (fileName, songName, songArtist) = aux.getFileAndSongInfo(file)
+        # Check if plot exists ------------------------------------------------
+        fName = OUT_PATH+fileName+'.png'
+        if (path.isfile(fName) and not OVW):
+            continue
         ###########################################################################
         # Process Files
         ###########################################################################
-        (fileName, songName, songArtist) = aux.getFileAndSongInfo(file)
-        if not path.isfile(file):
-            continue
         sound = AudioSegment.from_file(file=file)
-        (left, right) = (sound.split_to_mono()[0], sound.split_to_mono()[1])
+        try:
+            (left, right) = (
+                sound.split_to_mono()[0], 
+                sound.split_to_mono()[1]
+            )
+        except:
+            print(fileName)
+            continue
         bit_depth = left.sample_width*8
         array_type = get_array_type(bit_depth)
         (rawL, rawR) = [
@@ -65,9 +78,9 @@ for playlist in playlists:
             )
         ]
         (sigL, sigR) = [i[0::step] for i in (l, r)]
-        ###########################################################################
+        #######################################################################
         # Plot Iris
-        ###########################################################################
+        #######################################################################
         (astart, aend) = (2*np.pi-.25*np.pi/2, 0+.25*np.pi/2)
         maxStr = max(len(songArtist), len(songName))
         fontSize = np.interp(maxStr, (5, 60), (25, 10))
@@ -99,7 +112,7 @@ for playlist in playlists:
         ax.set_facecolor("k")
         fig.patch.set_facecolor("k")
         plt.savefig(
-            OUT_PATH+fileName+'.png',
+            fName,
             pad_inches=.5,
             dpi=DPI, bbox_inches='tight',
             transparent=False
