@@ -2,6 +2,7 @@
 import subprocess
 from tqdm import tqdm
 from glob import glob
+from termcolor import colored, cprint
 from os.path import expanduser, join
 
 
@@ -13,7 +14,7 @@ from os.path import expanduser, join
 playlists = glob(join(AUD_PATH, '*m3u'))
 # Process playlists -----------------------------------------------------------
 for playlist in playlists[:]:
-    print(playlist)
+    cprint(playlist, 'red')
     # Get filenames from playlist ---------------------------------------------
     myFile = open(playlist, "r")
     data = myFile.read()
