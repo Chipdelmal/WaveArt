@@ -33,21 +33,27 @@ DPI = 250
 (SB_COL, SF_COL) = ('#4A14AACC', '#ffffffAA')
 (BG_COL, TX_COL) = ('#000000FF', '#ffffffcc')
 ###############################################################################
-# Load song info and data 
+# Load song info
 ###############################################################################
 try:
     (fileName, songName, songArtist) = aux.getFileAndSongInfo(AUD_PATH)
-    sound = AudioSegment.from_file(file=AUD_PATH)
-    channels = sound.split_to_mono()
 except:
     cprint(f"Error: {AUD_PATH}", "red")
     exit()
-bitDepth = channels[0].sample_width*8
-arrayType = get_array_type(bitDepth)
 # Check if plot exists --------------------------------------------------------
 fName = path.join(OUT_PATH, fileName+'.png')
 exists = (path.isfile(fName) and not OVW)
 if not exists:
+    ###########################################################################
+    # Load song data
+    ###########################################################################
+    sound = AudioSegment.from_file(file=AUD_PATH)
+    channels = sound.split_to_mono()
+    if len(channels) < 2:
+        cprint(f"Error: {AUD_PATH}", "red")
+        exit()
+    bitDepth = channels[0].sample_width*8
+    arrayType = get_array_type(bitDepth)
     ###########################################################################
     # Process signals 
     ###########################################################################
