@@ -7,8 +7,8 @@ from os.path import expanduser, join
 
 
 (AUD_PATH, OUT_PATH) = (
-    '/mnt/Luma/Music', 
-    expanduser('~/Documents/Sync/Waveart/')
+    '/Users/chipdelmal/Desktop/Waveart/', 
+    expanduser('/Users/chipdelmal/Desktop/Waveart/out')
 )
 # Read playlists --------------------------------------------------------------
 playlists = glob(join(AUD_PATH, '*m3u'))

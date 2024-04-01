@@ -9,6 +9,7 @@
 
 import matplotlib.font_manager
 from IPython.core.display import HTML
+matplotlib.font_manager._get_fontconfig_fonts.cache_clear()
 
 
 def make_html(fontname):

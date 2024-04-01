@@ -88,7 +88,7 @@ if not exists:
     )
     plt.text(
         .5, .5, f'"{songName}"\n{songArtist}', 
-        fontsize=FONT_SIZE, color=TX_COL, font='Gotham Light',
+        fontsize=FONT_SIZE, color=TX_COL, font='Avenir Next Condensed',
         horizontalalignment='center', verticalalignment='center',
         transform=ax.transAxes
     )
