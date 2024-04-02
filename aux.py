@@ -11,8 +11,10 @@ import glob
 import array
 import style
 import random
+from colour import Color
 from pydub.utils import mediainfo
 from pydub.utils import get_array_type
+from matplotlib.colors import LinearSegmentedColormap, ColorConverter
 
 
 def getMixedChannels(sound):
@@ -82,3 +84,23 @@ def isNotebook():
             return False  # Other type (?)
     except NameError:
         return False      # Probably standard Python interpreter
+    
+    
+def generateAlphaColorMapFromColor(color, minAlpha=0, maxAlpha=1):
+    if (type(color) is str):
+        color = list(Color(color).rgb)
+    alphaMap = LinearSegmentedColormap.from_list(
+        'alphaMap', 
+        [
+            (0, 0, 0, minAlpha), 
+            (color[0], color[1], color[2], maxAlpha)
+        ]
+    )
+    return alphaMap
+
+
+def colorPaletteFromHexList(clist):
+    c = ColorConverter().to_rgb
+    clrs = [c(i) for i in clist]
+    rvb = LinearSegmentedColormap.from_list("hexMap", clrs)
+    return rvb

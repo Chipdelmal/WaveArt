@@ -7,8 +7,8 @@ from os.path import expanduser, join
 
 
 (AUD_PATH, OUT_PATH) = (
-    '/Users/chipdelmal/Desktop/Waveart/', 
-    expanduser('/Users/chipdelmal/Desktop/Waveart/out')
+    '/Users/chipdelmal/Pictures/Waveart/', 
+    expanduser('/Users/chipdelmal/Pictures/Waveart/out')
 )
 # Read playlists --------------------------------------------------------------
 playlists = glob(join(AUD_PATH, '*m3u'))
@@ -21,5 +21,6 @@ for playlist in playlists[:]:
     files = data.split("\n")[::2][1:]
     # Process files -----------------------------------------------------------
     for file in tqdm(files):
-        cmd = ['python', 'eclipse.py', file, OUT_PATH, '0']
+        # cmd = ['python', 'eclipse.py', file, OUT_PATH, '1']
+        cmd = ['python', 'eclipseSimple.py', file, OUT_PATH, '0']
         subprocess.Popen(cmd).wait()
