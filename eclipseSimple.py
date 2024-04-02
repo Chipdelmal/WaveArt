@@ -78,8 +78,8 @@ if not exists:
     # Get colors --------------------------------------------------------------
     sca = [np.interp(i, [0, np.max(m)], [0, 1]) for i in m]
     cmap = aux.colorPaletteFromHexList([
-        '#9979AC', '#A2A2E0', '#c2cbe4', '#C9B4ED', '#DFCCED', 
-        '#AAC4F2', '#f9f7f3', '#FBFBF7', '#f9f7f3', '#f9f7f3'
+        '#9979AC', '#A2A2E0', '#839CE2', '#4B49CF', '#AAC4F2',
+        '#8672E7', '#f9f7f3', '#f9f7f3'
     ])
     hexClr = [cmap(i) for i in sca]
     ###########################################################################

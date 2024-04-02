@@ -22,5 +22,5 @@ for playlist in playlists[:]:
     # Process files -----------------------------------------------------------
     for file in tqdm(files):
         # cmd = ['python', 'eclipse.py', file, OUT_PATH, '1']
-        cmd = ['python', 'eclipseSimple.py', file, OUT_PATH, '0']
+        cmd = ['python', 'eclipseSimple.py', file, OUT_PATH, '1']
         subprocess.Popen(cmd).wait()
