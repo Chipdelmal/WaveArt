@@ -8,7 +8,15 @@ from sys import argv, exit
 from termcolor import cprint
 from os.path import expanduser
 import matplotlib.pyplot as plt
+from mutagen import File
+from mutagen.id3 import ID3
+from mutagen.mp4 import MP4, MP4Cover
+from PIL import Image, ImageFilter
+import eyed3
+from matplotlib.patches import Rectangle
+from io import BytesIO
 from pydub import (AudioSegment, effects)
+from matplotlib.offsetbox import (OffsetImage, AnnotationBbox)
 from pydub.utils import get_array_type
 import matplotlib
 matplotlib.use('agg')
@@ -16,7 +24,7 @@ matplotlib.use('agg')
 
 if aux.isNotebook():
     (AUD_PATH, OUT_PATH, OVW) = (
-        '/Users/chipdelmal/Pictures/Waveart/05 Let Down.mp3', 
+        '/Users/chipdelmal/Pictures/Waveart/05 Jesus, Etc..m4a', 
         expanduser('/Users/chipdelmal/Pictures/Waveart/'),
         True
     )
@@ -24,12 +32,13 @@ else:
     (AUD_PATH, OUT_PATH, OVW) = (argv[1], argv[2], int(argv[3]))
 DPI = 250
 FRAMES = 300
+ALBUM = True
 ###############################################################################
 # Aesthetics constants
 ###############################################################################
-(STEP, IN_OFF) = (int(.1e3), 4)
+(STEP, IN_OFF) = (int(.1e3), 3.25)
 (BITS, SCALE, CLIP, MEAN_SIG) = ((0, 32767), (0, 5), (0, 10), 5e3)
-(DIFF_AMP, ROLL_PAD) = (1.15, 10)
+(DIFF_AMP, ROLL_PAD) = (1.25, 10)
 (ANGLE_START, ANGLE_DIR, ANGLE_RANGE) = ('W', 1, (2*pi-.1*pi, .1*pi))
 (SB_COL, SF_COL) = ('#4A14AACC', '#ffffffAA')
 (BG_COL, TX_COL) = ('#000000FF', '#ffffffcc')
@@ -55,6 +64,24 @@ if not exists:
         exit()
     bitDepth = channels[0].sample_width*8
     arrayType = get_array_type(bitDepth)
+    ###########################################################################
+    # Load album cover
+    ###########################################################################
+    extension = path.splitext(AUD_PATH)[-1]
+    if ALBUM:
+        if (extension=='.mp3'):
+            # tags = ID3(AUD_PATH)    
+            # pict = tags.get("APIC:").data
+            # img = Image.open(BytesIO(pict))
+            audio_file = eyed3.load(AUD_PATH)
+            img = Image.open(BytesIO(audio_file.tag.images[0].image_data))
+            COVER = True
+        elif (extension=='.m4a'):
+            tags = MP4(AUD_PATH)
+            img = Image.open(BytesIO(tags['covr'][0]))
+            COVER = True
+        else:
+            COVER = False
     ###########################################################################
     # Process signals 
     ###########################################################################
@@ -88,10 +115,25 @@ if not exists:
     maxStr = max(len(songArtist), len(songName))
     FONT_SIZE = np.interp(maxStr, (5, 60, 75), (25, 7.5, 4))
     ANGLES = np.linspace(ANGLE_RANGE[0], ANGLE_RANGE[1], len(m), endpoint=False)
-    # Figure ----------------------------------------------------------------------
-    (fig, ax) = plt.subplots(figsize=(16, 9), subplot_kw={"projection": "polar"})
-    fig.add_axes(ax)
+    # Figure ------------------------------------------------------------------
+    (fig, ax) = plt.subplots(figsize=(10, 10), subplot_kw={"projection": "polar"})
     ax.set_axis_off()
+    # Add cover ---------------------------------------------------------------
+    if ALBUM and img:
+        ax0 = fig.add_subplot(111)
+        ax0.imshow(
+            img.filter(ImageFilter.SMOOTH_MORE()), 
+            zorder=-2
+        )
+        ax0.axis("off")
+        square = Rectangle(
+            (0, 0), 10, 10, 
+            linewidth=0, facecolor='#000000CC',
+            transform=ax0.transAxes, zorder=10
+        )
+        ax0.add_patch(square)
+    # Add waveform ------------------------------------------------------------
+    ax = fig.add_subplot(111, polar=True, label="polar")
     ax.vlines(
         ANGLES, IN_OFF, IN_OFF+m*DIFF_AMP, 
         lw=1.5, colors=hexClr, zorder=-1,
@@ -103,7 +145,9 @@ if not exists:
         horizontalalignment='center', verticalalignment='center',
         rotation=0, transform=ax.transAxes
     )
-    ax.set_ylim(0, SCALE[1]+2.5)
+    # Set limits and axes -----------------------------------------------------
+    ax.set_axis_off()
+    ax.set_ylim(0, SCALE[1]+1)
     ax.set_facecolor(BG_COL)
     fig.patch.set_facecolor(BG_COL)
     # ax.set_theta_offset(np.pi/2)
