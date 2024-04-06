@@ -24,22 +24,22 @@ matplotlib.use('agg')
 
 if aux.isNotebook():
     (AUD_PATH, OUT_PATH, OVW) = (
-        '/Users/chipdelmal/Pictures/Waveart/05 Jesus, Etc..m4a', 
+        '/Users/chipdelmal/Pictures/Waveart/2-05 A Lack of Color.mp3', 
         expanduser('/Users/chipdelmal/Pictures/Waveart/'),
         True
     )
 else:
     (AUD_PATH, OUT_PATH, OVW) = (argv[1], argv[2], int(argv[3]))
 DPI = 250
-FRAMES = 300
+FRAMES = 1500
 ALBUM = True
 ###############################################################################
 # Aesthetics constants
 ###############################################################################
-(STEP, IN_OFF) = (int(.1e3), 3.25)
+(STEP_SCALE, IN_OFF) = (25, 3)
 (BITS, SCALE, CLIP, MEAN_SIG) = ((0, 32767), (0, 5), (0, 10), 5e3)
-(DIFF_AMP, ROLL_PAD) = (1.25, 10)
-(ANGLE_START, ANGLE_DIR, ANGLE_RANGE) = ('W', 1, (2*pi-.1*pi, .1*pi))
+(DIFF_AMP, ROLL_PAD) = (1.1, 10)
+(ANGLE_START, ANGLE_DIR, ANGLE_RANGE) = ('W', 1, (2*pi-0.1*pi, 0.1*pi))
 (SB_COL, SF_COL) = ('#4A14AACC', '#ffffffAA')
 (BG_COL, TX_COL) = ('#000000FF', '#ffffffcc')
 ###############################################################################
@@ -88,6 +88,8 @@ if not exists:
     sigRaw = [array.array(arrayType, sig) for sig in [i._data for i in channels]]
     sigAbs = [np.abs(np.array(sig), dtype=np.int64) for sig in sigRaw]
     sigSrt = sigAbs if (np.median(sigAbs[1]) < np.median(sigAbs[0])) else sigAbs[::-1]
+    # sigSrt = np.max(np.array(sigSrt).T, axis=1)
+    STEP = int(sigSrt[0].shape[0]/(STEP_SCALE*FRAMES))
     # Scale signal for plot ---------------------------------------------------
     M_POWER = np.mean(sigAbs[0]+sigAbs[1])/2
     sigSca = [np.interp(sig, BITS, (SCALE[0], SCALE[1]*MEAN_SIG/M_POWER)) for sig in sigSrt]
@@ -97,7 +99,7 @@ if not exists:
     sigPad = (np.pad(sigSmt[0], (ROLL_PAD, 0), mode='constant')[:-ROLL_PAD], sigSmt[1])
     sigSmp = [i[0::STEP] for i in sigPad]
     # Get soundframes ---------------------------------------------------------
-    sndArray = sigSmp[0]
+    sndArray = np.max(np.array(sigSmp).T, axis=1)# sigSmp[0]
     idx = np.round(np.linspace(0, len(sndArray)-1, FRAMES)).astype(int)
     m = sndArray[idx]
     m = np.where(m!=0, abs(np.sqrt(m)), 0)
@@ -136,7 +138,7 @@ if not exists:
     ax = fig.add_subplot(111, polar=True, label="polar")
     ax.vlines(
         ANGLES, IN_OFF, IN_OFF+m*DIFF_AMP, 
-        lw=1.5, colors=hexClr, zorder=-1,
+        lw=0.425, colors=hexClr, zorder=-1,
         capstyle='round'
     )
     plt.text(

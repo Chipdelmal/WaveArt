@@ -1,14 +1,21 @@
 
 import aux
 import array
+import eyed3
 from os import path
 import numpy as np
 from numpy import pi
+from mutagen import File
+from mutagen.id3 import ID3
+from matplotlib.patches import Rectangle
+from mutagen.mp4 import MP4, MP4Cover
 from sys import argv, exit
 from termcolor import cprint
 from os.path import expanduser
 import matplotlib.pyplot as plt
-from pydub import AudioSegment
+from PIL import Image, ImageFilter
+from io import BytesIO
+from pydub import (AudioSegment, effects)
 from pydub.utils import get_array_type
 import matplotlib
 matplotlib.use('agg')
@@ -16,8 +23,8 @@ matplotlib.use('agg')
 
 if aux.isNotebook():
     (AUD_PATH, OUT_PATH, OVW) = (
-        './Schemes/OKComputer/05 Let Down.mp3', 
-        expanduser('~/Documents/Sync/Waveart/'),
+        '/Users/chipdelmal/Pictures/Waveart/05 Jesus, Etc..m4a', 
+        expanduser('/Users/chipdelmal/Pictures/Waveart/'),
         True
     )
 else:
@@ -26,12 +33,13 @@ DPI = 250
 ###############################################################################
 # Aesthetics constants
 ###############################################################################
-(STEP, IN_OFF) = (int(.25e3), 4)
+(STEP, IN_OFF) = (int(.25e3), 3.5)
 (BITS, SCALE, CLIP, MEAN_SIG) = ((0, 32767), (0, 5), (0, 10), 5e3)
-(DIFF_AMP, ROLL_PAD) = (1.35, 10)
-(ANGLE_START, ANGLE_DIR, ANGLE_RANGE) = ('E', -1, (2*pi-.125*pi, .125*pi))
+(DIFF_AMP, ROLL_PAD) = (1.25, 10)
+(ANGLE_START, ANGLE_DIR, ANGLE_RANGE) = ('W', 1, (2*pi-.1*pi, .1*pi))
 (SB_COL, SF_COL) = ('#4A14AACC', '#ffffffAA')
 (BG_COL, TX_COL) = ('#000000FF', '#ffffffcc')
+ALBUM = True
 ###############################################################################
 # Load song info
 ###############################################################################
@@ -55,6 +63,24 @@ if not exists:
     bitDepth = channels[0].sample_width*8
     arrayType = get_array_type(bitDepth)
     ###########################################################################
+    # Load album cover
+    ###########################################################################
+    extension = path.splitext(AUD_PATH)[-1]
+    if ALBUM:
+        if (extension=='.mp3'):
+            # tags = ID3(AUD_PATH)    
+            # pict = tags.get("APIC:").data
+            # img = Image.open(BytesIO(pict))
+            audio_file = eyed3.load(AUD_PATH)
+            img = Image.open(BytesIO(audio_file.tag.images[0].image_data))
+            COVER = True
+        elif (extension=='.m4a'):
+            tags = MP4(AUD_PATH)
+            img = Image.open(BytesIO(tags['covr'][0]))
+            COVER = True
+        else:
+            COVER = False
+    ###########################################################################
     # Process signals 
     ###########################################################################
     sigRaw = [array.array(arrayType, sig) for sig in [i._data for i in channels]]
@@ -76,8 +102,23 @@ if not exists:
     ANGLES = np.linspace(ANGLE_RANGE[0], ANGLE_RANGE[1], len(sigSmp[0]), endpoint=False)
     # Figure ----------------------------------------------------------------------
     (fig, ax) = plt.subplots(figsize=(16, 9), subplot_kw={"projection": "polar"})
-    fig.add_axes(ax)
     ax.set_axis_off()
+    # Add cover ---------------------------------------------------------------
+    if ALBUM and img:
+        ax0 = fig.add_subplot(111)
+        ax0.imshow(
+            img.filter(ImageFilter.SMOOTH_MORE()), 
+            zorder=-2
+        )
+        ax0.axis("off")
+        square = Rectangle(
+            (0, 0), 10, 10, 
+            linewidth=0, facecolor='#000000CC',
+            transform=ax0.transAxes, zorder=10
+        )
+        ax0.add_patch(square)
+    # Add waveform ------------------------------------------------------------
+    ax = fig.add_subplot(111, polar=True, label="polar")
     ax.vlines(
         ANGLES, IN_OFF, IN_OFF+sigSmp[0]*DIFF_AMP, 
         lw=0.025, colors=SB_COL, zorder=-1
@@ -92,6 +133,8 @@ if not exists:
         horizontalalignment='center', verticalalignment='center',
         transform=ax.transAxes
     )
+    # Set limits and axes -----------------------------------------------------
+    ax.set_axis_off()
     ax.set_ylim(0, SCALE[1]+1)
     ax.set_facecolor(BG_COL)
     fig.patch.set_facecolor(BG_COL)
@@ -102,7 +145,7 @@ if not exists:
     # Save --------------------------------------------------------------------
     plt.savefig(
         fName,
-        pad_inches=.5,
+        pad_inches=0,
         dpi=DPI, bbox_inches='tight',
         transparent=False
     )
