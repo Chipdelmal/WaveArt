@@ -23,7 +23,7 @@ matplotlib.use('agg')
 
 if aux.isNotebook():
     (AUD_PATH, OUT_PATH, OVW) = (
-        '/Users/chipdelmal/Pictures/Waveart/05 Jesus, Etc..m4a', 
+        '/Users/chipdelmal/Pictures/Waveart/03 Impossible Germany.mp3', 
         expanduser('/Users/chipdelmal/Pictures/Waveart/'),
         True
     )
@@ -37,7 +37,7 @@ DPI = 250
 (BITS, SCALE, CLIP, MEAN_SIG) = ((0, 32767), (0, 5), (0, 10), 5e3)
 (DIFF_AMP, ROLL_PAD) = (1.25, 10)
 (ANGLE_START, ANGLE_DIR, ANGLE_RANGE) = ('W', 1, (2*pi-.1*pi, .1*pi))
-(SB_COL, SF_COL) = ('#4A14AACC', '#ffffffAA')
+(SB_COL, SF_COL) = ('#4A14AACC', '#ffffffCC')
 (BG_COL, TX_COL) = ('#000000FF', '#ffffffcc')
 ALBUM = True
 ###############################################################################

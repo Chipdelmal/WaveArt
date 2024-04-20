@@ -24,7 +24,7 @@ matplotlib.use('agg')
 
 if aux.isNotebook():
     (AUD_PATH, OUT_PATH, OVW) = (
-        '/Users/chipdelmal/Pictures/Waveart/2-05 A Lack of Color.mp3', 
+        '/Users/chipdelmal/Pictures/Waveart/02 Song 2.mp3', 
         expanduser('/Users/chipdelmal/Pictures/Waveart/'),
         True
     )
